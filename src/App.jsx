@@ -74,7 +74,7 @@ function App() {
   setsearch("");
   }
    
-  let limit = 20
+  let limit = 10
 
   useEffect(() => {
   async function fetchget(){
@@ -98,68 +98,6 @@ function App() {
   fetchget()
   }, [currentpage,refresh]);
   
-
-  
-//  return (
-//   <div className="min-h-screen flex flex-col">
-
-//     <mycontext.Provider value={{ onsave, remove,seteditnote,
-//                                  editnote,onedit,onsearch,
-//                                  search, setsearch,setrefresh}}>
-//       <Head />
-
-//       <div className="flex flex-1 items-stretch bg-gradient-to-br from-slate-100 via-purple-50 to-indigo-100">
-
-//         <Form />
-
-//         {/* Cards Section */}
-//         <div className="flex-1 flex flex-col p-4">
-
-//           {/* Cards */}
-//           <div className="flex flex-wrap items-start content-start gap-4 flex-1">
-//             {note.map((item) => (
-//               <Card
-//                 key={item.id}
-//                 note={item}
-//               />
-//             ))}
-//           </div>
-
-//           {/* Pagination - Cards section bottom */}
-//           <div className="flex justify-center items-center gap-4 mt-auto pt-4 pb-2">
-
-//             {/* Previous */}
-//             <button
-//               disabled={currentpage === 1}
-//               onClick={() => setcurrentpage((prev) => prev - 1)}
-//               className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md text-xl font-bold text-indigo-600 hover:bg-indigo-100 disabled:opacity-40 disabled:cursor-not-allowed transition"
-//             >
-//               −
-//             </button>
-
-//             {/* Page Number */}
-//             <span className="px-4 py-2 rounded-xl bg-white/80 shadow-sm text-sm font-semibold text-slate-700">
-//               {currentpage} / {total}
-//             </span>
-
-//             {/* Next */}
-//             <button
-//               disabled={currentpage >= total}
-//               onClick={() => setcurrentpage((prev) => prev + 1)}
-//               className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md text-xl font-bold text-indigo-600 hover:bg-indigo-100 disabled:opacity-40 disabled:cursor-not-allowed transition"
-//             >
-//               +
-//             </button>
-
-//           </div>
-
-//         </div>
-//       </div>
-//     </mycontext.Provider>
-
-//   </div>
-// );
- 
 
 return (
   <div className="h-screen flex flex-col overflow-hidden">
@@ -203,33 +141,64 @@ return (
 
           </div>
 
-          {/* Pagination - Fixed Bottom */}
-          <div className="flex justify-center items-center gap-4 mt-auto pt-4 pb-2 shrink-0">
+{/* Pagination - Fixed Bottom */}
+<div className="flex justify-center items-center gap-4 mt-auto pt-4 pb-2 shrink-0">
+             
+             {/* Pagination */}
+<div className="flex justify-center items-center gap-2 mt-auto pt-4 pb-2 shrink-0">
 
-            {/* Previous */}
-            <button
-              disabled={currentpage === 1}
-              onClick={() => setcurrentpage((prev) => prev - 1)}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md text-xl font-bold text-indigo-600 hover:bg-indigo-100 disabled:opacity-40 disabled:cursor-not-allowed transition"
-            >
-              −
-            </button>
+  {/* Previous */}
+  <button
+    disabled={currentpage === 1}
+    onClick={() => setcurrentpage((prev) => prev - 1)}
+    className="w-10 h-10 flex items-center justify-center rounded-xl
+    bg-white shadow-sm border border-slate-200
+    text-indigo-600 font-semibold
+    hover:bg-indigo-50 hover:border-indigo-300
+    disabled:opacity-40 disabled:cursor-not-allowed
+    transition-all duration-200"
+  >
+    ←
+  </button>
 
-            {/* Page Number */}
-            <span className="px-4 py-2 rounded-xl bg-white/80 shadow-sm text-sm font-semibold text-slate-700">
-              {currentpage} / {total}
-            </span>
+  {/* Page Numbers */}
+  {Array.from({ length: total }, (_, index) => {
+    const pagenum = index + 1;
 
-            {/* Next */}
-            <button
-              disabled={currentpage >= total}
-              onClick={() => setcurrentpage((prev) => prev + 1)}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md text-xl font-bold text-indigo-600 hover:bg-indigo-100 disabled:opacity-40 disabled:cursor-not-allowed transition"
-            >
-              +
-            </button>
+    return (
+      <button
+        key={pagenum}
+        onClick={() => setcurrentpage(pagenum)}
+        className={`min-w-10 h-10 px-3 flex items-center justify-center
+        rounded-xl font-semibold text-sm transition-all duration-200
+        ${
+          currentpage === pagenum
+            ? "bg-indigo-600 text-white shadow-md shadow-indigo-200 scale-105"
+            : "bg-white text-slate-600 border border-slate-200 shadow-sm hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-300"
+        }`}
+      >
+        {pagenum}
+      </button>
+    );
+  })}
 
-          </div>
+  {/* Next */}
+  <button
+    disabled={currentpage >= total}
+    onClick={() => setcurrentpage((prev) => prev + 1)}
+    className="w-10 h-10 flex items-center justify-center rounded-xl
+    bg-white shadow-sm border border-slate-200
+    text-indigo-600 font-semibold
+    hover:bg-indigo-50 hover:border-indigo-300
+    disabled:opacity-40 disabled:cursor-not-allowed
+    transition-all duration-200"
+  >
+    →
+  </button>
+
+</div>
+
+</div>
 
         </div>
       </div>
