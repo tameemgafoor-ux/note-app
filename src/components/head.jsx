@@ -1,5 +1,9 @@
 import { NotebookPen } from "lucide-react";
+import { useContext } from "react";
+import { mycontext } from "../App";
 function Head (){
+  const{onsearch,search, setsearch,setrefresh}=useContext(mycontext)
+  
       return (
  <div className="w-full bg-gradient-to-r from-slate-900 via-purple-900 to-indigo-900 px-6 py-4 shadow-lg">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
@@ -10,12 +14,22 @@ function Head (){
 
         <div className="flex items-center gap-2">
           <input
+            value={search}
+            onChange={(e)=>setsearch(e.target.value)}
             placeholder="Search..."
             className="w-48 md:w-72 rounded-xl bg-white/10 border border-white/20 px-4 py-2.5 text-white placeholder-purple-200 outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400"
           />
 
-          <button className="rounded-xl bg-purple-500 px-5 py-2.5 font-semibold text-white hover:bg-purple-400 transition">
-            Search
+          <button className="rounded-xl bg-purple-500 px-5 py-2.5 font-semibold text-white hover:bg-purple-400 transition"
+          onClick={onsearch}
+          >
+           Search
+          </button>
+
+          <button className="rounded-xl bg-purple-500 px-5 py-2.5 font-semibold text-white hover:bg-purple-400 transition"
+          onClick={()=>setrefresh((prev) => !prev)}
+          >
+           Reset
           </button>
         </div>
 

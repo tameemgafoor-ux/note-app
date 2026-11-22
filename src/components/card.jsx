@@ -1,11 +1,16 @@
 import { Pencil, Star, Trash2 } from "lucide-react";
-function Card({note,remove}) {
+import { useContext } from "react";
+import {mycontext} from "../App.jsx"
+function Card({note}) {
+  const {remove,seteditnote}=useContext(mycontext)
   return (
     <div className={`w-fit max-w-sm ${note.color} rounded-2xl border border-purple-100 p-8 shadow-lg shadow-purple-100/60 hover:shadow-xl hover:-translate-y-1 transition-all duration-300`}>
 
       {/* Buttons */}
       <div className="flex justify-end gap-2 mb-4">
-        <button className="px-3 py-1.5 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
+        <button className="px-3 py-1.5 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition"
+        onClick={()=>seteditnote(note)}
+        >
           Edit
         </button>
 

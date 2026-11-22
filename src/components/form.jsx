@@ -1,6 +1,10 @@
 
-import{useState}from"react"
-function Form({onsave}) {
+import{useState,useEffect,useContext}from"react"
+import {mycontext} from "../App.jsx"
+function Form() {
+
+  const {onsave,editnote,onedit}=useContext(mycontext)
+
    const[title,settitle]=useState("")
    const[content,setcontent]=useState("")
    const[color,setcolor]=useState("")
@@ -37,16 +41,10 @@ function Form({onsave}) {
       return;
     }
 
-    // Category validation
-    // if (category.length > 30) {
-    //   setError("Category cannot exceed 30 characters");
-    //   return;
-    // }
-
-    // Duplicate validation
+    //Duplicate validation
     // const duplicate = notes.some((note) => {
     //   return (
-    //     note.id !== editingNote?.id &&
+    //     note.id !== editnote?.id &&
     //     note.title.trim().toLowerCase() === title.trim().toLowerCase() &&
     //     note.content.trim().toLowerCase() === content.trim().toLowerCase()
     //   );
@@ -56,15 +54,20 @@ function Form({onsave}) {
     //   setError("This note already exists");
     //   return;
     // }
-   
+
+
   const notedata={
-        id:crypto.randomUUID(),
+        id:editnote ? editnote.id:crypto.randomUUID(),
         title:title.trim(),
         content:content.trim(),
         color:color,
         date:new Date()
    }
+   if(editnote){
+    onedit(editnote.id,notedata)
+   }else{
    onsave(notedata)
+   }
 
    settitle("");
   setcontent("");
@@ -72,6 +75,18 @@ function Form({onsave}) {
   setError("");
 
   }
+
+   useEffect(()=>{
+   if (editnote) {
+    settitle(editnote.title);
+    setcontent(editnote.content);
+
+   }else{
+    settitle("");
+    setcontent("");
+   }
+  },[editnote])
+  
   return (
     <div className="shrink-0 h-fit bg-gradient-to-br from-slate-100 via-purple-50 to-indigo-100 flex flex-col items-start justify-start p-3">
 
@@ -99,9 +114,9 @@ function Form({onsave}) {
           <label className="block text-sm font-semibold text-slate-700">
             Note Title
           </label>
-
+         
           <input
-           value={title}
+            value={title}
             type="text"
             placeholder="Enter your note title..."
             maxLength={100}
